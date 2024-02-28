@@ -1,0 +1,2 @@
+value iteration和policy iteration 其实都是truncated policy iteration的特例
+把policy iteration中的代码改了一下发现，truncatedCnt的大小会显著影响收敛速度
