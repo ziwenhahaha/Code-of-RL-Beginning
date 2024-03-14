@@ -10,9 +10,20 @@
 
 该项目代码部分均由本人（ziwenhahaha）独自编写，有些诘屈聱牙的算法与QQ好友“袖袖哥”一同讨论思索后，再进行撰写。
 
-
+<iframe 
+src="https://www.bilibili.com/video/BV1fW421w7NH" 
+scrolling="no" 
+border="0" 
+frameborder="no" 
+framespacing="0" 
+allowfullscreen="true" 
+height=600 
+width=800> 
+</iframe>
 
 #### 24.2.29 更
-
 目前该代码只完成到前7课，正在编码第8课值函数近似。预计未来一到两周内学完。届时在B站中将发一个视频进行代码介绍。
 
+#### 24.3.15 更
+B站视频已更新到第七章，停更一段时间，一方面要准备考研复试，要去攻克第八章DQN不收敛的难题。
+另外第八章真的坑，天坑，这一章的代码我写了一个月都收敛不了。

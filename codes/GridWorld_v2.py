@@ -1,13 +1,19 @@
 import numpy as np
+#跟v1版本的区别主要是两点，v1是针对deteministic的策略的，v2是针对stochastic的策略的，
+#具体来说的话就是，v2版本支持在同一个state概率选择若干个动作
+#它的策略矩阵，现在是 shape==(25,5)的第一维表示state，第二维表示action，返回一个概率
+#在打印策略的时候，将把每个state最大概率的动作打印出来
+#
+#第二点区别是，在v2版本里面，引入了trajectory的概念
+#通过getTrajectoryScore方法可以直接按照提供的policy，进行采样若干步
+
 class GridWorld_v2(object): 
-    # 初版gridworld，没有写操作逻辑以及得分逻辑，目的是用来计算policy iteration和value iteration
     # n行，m列，随机若干个forbiddenArea，随机若干个target
     # A1: move upwards
     # A2: move rightwards;
     # A3: move downwards;
     # A4: move leftwards;
     # A5: stay unchanged;
-    # 操作与
 
     stateMap = None  #大小为rows*columns的list，每个位置存的是state的编号
     scoreMap = None  #大小为rows*columns的list，每个位置存的是奖励值 0 1 -1
@@ -16,6 +22,8 @@ class GridWorld_v2(object):
 
     
     def __init__(self,rows=4, columns=5, forbiddenAreaNums=3, targetNums=1, seed = -1, score = 1, forbiddenAreaScore = -1, desc=None):
+        
+        
         self.score = score
         self.forbiddenAreaScore = forbiddenAreaScore
         if(desc != None):
@@ -78,10 +86,10 @@ class GridWorld_v2(object):
         return self.scoreMap[tmpx][tmpy],self.stateMap[tmpx][tmpy]
 
     def getTrajectoryScore(self, nowState, action, policy, steps, stop_when_reach_target=False):
-        
-        
         #policy是一个 (rows*columns) * actions的二维列表，其中每一行的总和为1，代表每个state选择五个action的概率总和为1
-        #Attention: 返回值是一个大小为steps+1的列表，因为第一步也计算在里面了，其中的元素是(action, score)元组
+        #Attention: 返回值是一个大小为steps+1的列表，因为第一步也计算在里面了
+        #其中的元素是(nowState, nowAction, score, nextState, nextAction)元组
+        
         res = []
         nextState = nowState
         nextAction = action
@@ -101,7 +109,7 @@ class GridWorld_v2(object):
                 # print(self.scoreMap)
                 nowx = nowState // self.columns
                 nowy = nowState % self.columns
-                if self.scoreMap[nowx][nowy] == 1:
+                if self.scoreMap[nowx][nowy] == self.score:
                     return res
         return res
 
