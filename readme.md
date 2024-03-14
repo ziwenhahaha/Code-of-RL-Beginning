@@ -3,8 +3,8 @@
 > 这是一个基于emoji可视化的网格世界（gridworld）强化学习示例代码，目前已完成至第七章
 > 并且同步附有bilibili网站的视频代码讲解，欢迎各位同学参与到讨论学习当中
 
-![](../images/homepage.jpg)
-![](../images/SARSA.gif)
+![](./images/homepage.jpg)
+![](./images/SARSA.gif)
 
 该项目为西湖大学赵世钰老师的课程学习代码
 
