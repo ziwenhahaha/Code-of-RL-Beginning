@@ -5,9 +5,9 @@
 
 B站链接：https://www.bilibili.com/video/BV1fW421w7NH
 
+<img src="./images/bilibili.png"  width="640" height="360"/>
 <img src="./images/homepage.jpg" width="640" height="360"/>
 <img src="./images/SARSA.gif"  width="640" height="360"/>
-<img src="./images/bilibili.png"  width="640" height="360"/>
  
 
 该项目为西湖大学赵世钰老师的课程学习代码
