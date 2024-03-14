@@ -1,7 +1,7 @@
 ### 前言
 
 > 这是一个基于emoji可视化的网格世界（gridworld）强化学习示例代码，目前已完成至第七章
-
+>
 > 并且同步附有bilibili网站的视频代码讲解，欢迎各位同学参与到讨论学习当中
 
 项目对应B站链接：https://www.bilibili.com/video/BV1fW421w7NH
