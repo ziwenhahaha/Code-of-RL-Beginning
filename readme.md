@@ -5,6 +5,8 @@
 
 B站链接：https://www.bilibili.com/video/BV1fW421w7NH
 
+ <div style="text-align:center"><img src="./images/homepage.jpg" /></div> 
+  <div style="text-align:center"><img src="./images/SARSA.gif" /></div> 
 <center>![](./images/homepage.jpg)</center>
 <center>![](./images/SARSA.gif)</center>
 
