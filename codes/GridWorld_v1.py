@@ -2,7 +2,10 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+from matplotlib import cm
+import seaborn as sns
 from IPython.display import display, clear_output
+from scipy.interpolate import interp2d
 
 
 class Animator:
@@ -119,10 +122,30 @@ class GridWorld_v1(object):
     ):
         # 1、构造函数（构造一个自定义or随机的网格世界）
         self.score = score
-        self.forbidden_area_score = forbidden_area_score
-        self.forbidden_area_nums = forbidden_area_nums
         self.target_nums = target_nums
         self.seed = seed
+        self.create_map(
+            rows,
+            columns,
+            forbidden_area_nums,
+            target_nums,
+            score,
+            forbidden_area_score,
+            desc,
+        )
+
+    def create_map(
+        self,
+        rows: int = 4,
+        columns: int = 5,
+        forbidden_area_nums: int = 3,
+        target_nums: int = 1,
+        score: int = 1,
+        forbidden_area_score: int = -10,
+        desc: list = None,
+    ):
+        self.forbidden_area_score = forbidden_area_score
+        self.forbidden_area_nums = forbidden_area_nums
         if desc is not None:
             # if the gridWorld is fixed
             self.rows = len(desc)
@@ -131,8 +154,8 @@ class GridWorld_v1(object):
             desc_array = np.array(
                 [list(row) for row in desc]
             )  # change the desc to a 2D numpy array
-            self.score_map[desc_array == "#"] = forbidden_area_score
-            self.score_map[desc_array == "T"] = score
+            self.score_map[desc_array == "#"] = self.forbidden_area_score
+            self.score_map[desc_array == "T"] = self.score
         else:
             # generate a random grid_world
             self.rows = rows
@@ -155,6 +178,14 @@ class GridWorld_v1(object):
         self.state_map = np.arange(rows * columns).reshape(rows, columns)
         self.animator = Animator(self.rows, self.columns)
 
+    def reset(self, position=False):  # 重置网格世界
+        # 3、重置网格世界（reset函数）
+
+        if position is not False:
+            return position
+
+        return np.random.randint(0, self.rows), np.random.randint(0, self.columns)
+
     def show(self):
         # 2、把网格世界展示出来（show函数）
 
@@ -171,11 +202,11 @@ class GridWorld_v1(object):
         # plt.show()
 
     # 5*5
-    def get_score(
-        self, nowState: tuple[int, int], action: int
+    def step(
+        self, now_state: tuple[int, int], action: int
     ) -> tuple[int, tuple[int, int]]:
-        # 3、在当前状态[0,24]，执行动作[0,4]的得分及下一个状态
-        now_x, now_y = nowState
+        # state:(x,y) action:0,1,2,3,4
+        now_x, now_y = now_state
         if now_x < 0 or now_y < 0 or now_x >= self.rows or now_y >= self.columns:
             print(f"coordinate error: ({now_x},{now_y})")
         if action < 0 or action >= 5:
@@ -185,9 +216,17 @@ class GridWorld_v1(object):
         actionList = [(-1, 0), (0, 1), (1, 0), (0, -1), (0, 0)]
         next_x = now_x + actionList[action][0]
         next_y = now_y + actionList[action][1]
+        done = False
         if next_x < 0 or next_y < 0 or next_x >= self.rows or next_y >= self.columns:
-            return -1, nowState
-        return self.score_map[next_x][next_y], (next_x, next_y)
+            score = self.forbidden_area_score
+            next_x, next_y = now_x, now_y
+        else:
+            score = self.score_map[next_x][next_y]
+
+        if self.score_map[next_x][next_y] == self.score:
+            done = True
+
+        return (next_x, next_y), score, done
 
     def show_value(self, value: np.ndarray, step: bool = True):
         # to show q value or state value
@@ -196,6 +235,34 @@ class GridWorld_v1(object):
         if not step:
             clear_output(wait=True)
         display(self.animator.fig)
+
+    def show_value3D(self, value: np.ndarray, step: bool = True):
+        # to show q value or state value
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection="3d")
+
+        x = np.arange(self.columns)
+        y = np.arange(self.rows)
+        x, y = np.meshgrid(x, y)
+        z = value.reshape(self.rows, self.columns)
+        ax.set_zlim(-4.5, -2.5)
+        # 创建插值函数
+        # f = interp2d(x, y, z, kind="cubic")
+
+        # # 生成更密集的网格
+        # x_new = np.linspace(0, self.columns, 10)
+        # y_new = np.linspace(0, self.rows, 10)
+        # x_new, y_new = np.meshgrid(x_new, y_new)
+        # z_new = f(x_new[0, :], y_new[:, 0])
+
+        sns.set_theme()
+        cmap = sns.color_palette("Spectral", as_cmap=True)
+        ax.plot_surface(y, x, z, cmap=cmap)
+
+        ax.set_xlabel("Columns")
+        ax.set_ylabel("Rows")
+        ax.set_zlabel("Value")
+        ax.set_title("3D Value Function")
 
     def show_policy(self, policy: np.ndarray, step: bool = True):
         arrow = {
@@ -214,3 +281,6 @@ class GridWorld_v1(object):
         if not step:
             clear_output(wait=True)
         display(self.animator.fig)
+
+    def save_policy(self, filename: str):
+        self.animator.fig.savefig(filename)

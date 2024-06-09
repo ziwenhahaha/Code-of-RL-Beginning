@@ -42,7 +42,7 @@ class GridWorld_v2(GridWorld_v1):
             steps = 20000
         for i in range(steps + 1):
 
-            score, next_state = self.get_score(now_state, now_action)
+            next_state, score, done = self.step(now_state, now_action)
             next_action = np.random.choice(
                 range(5), size=1, replace=False, p=policy[next_state]
             )[0]
