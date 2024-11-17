@@ -2,10 +2,8 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-from matplotlib import cm
-import seaborn as sns
+
 from IPython.display import display, clear_output
-from scipy.interpolate import interp2d
 
 
 class Animator:
@@ -13,6 +11,10 @@ class Animator:
         self.rows = row
         self.columes = columes
         self.fig, self.ax = plt.subplots()
+        self.ax.set_facecolor("white")
+        self.fig.set_facecolor("white")
+        for spine in self.ax.spines.values():
+            spine.set_color("black")
         self.fig.set_size_inches(3.5, 3.5)
         for row in range(row + 1):
             self.ax.plot([0, columes], [row, row], color="black")
@@ -26,7 +28,7 @@ class Animator:
         # 禁用轴刻度
         self.ax.set_xticks([])
         self.ax.set_yticks([])
-
+        #
         self.elements = []
 
     def add_rect(self, positions: list[tuple[int, int]], color: str):
@@ -136,7 +138,7 @@ class GridWorld_v1(object):
 
     def create_map(
         self,
-        rows: int = 4,
+        rows: int = 5,
         columns: int = 5,
         forbidden_area_nums: int = 3,
         target_nums: int = 1,
@@ -235,34 +237,6 @@ class GridWorld_v1(object):
         if not step:
             clear_output(wait=True)
         display(self.animator.fig)
-
-    def show_value3D(self, value: np.ndarray, step: bool = True):
-        # to show q value or state value
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection="3d")
-
-        x = np.arange(self.columns)
-        y = np.arange(self.rows)
-        x, y = np.meshgrid(x, y)
-        z = value.reshape(self.rows, self.columns)
-        ax.set_zlim(-4.5, -2.5)
-        # 创建插值函数
-        # f = interp2d(x, y, z, kind="cubic")
-
-        # # 生成更密集的网格
-        # x_new = np.linspace(0, self.columns, 10)
-        # y_new = np.linspace(0, self.rows, 10)
-        # x_new, y_new = np.meshgrid(x_new, y_new)
-        # z_new = f(x_new[0, :], y_new[:, 0])
-
-        sns.set_theme()
-        cmap = sns.color_palette("Spectral", as_cmap=True)
-        ax.plot_surface(y, x, z, cmap=cmap)
-
-        ax.set_xlabel("Columns")
-        ax.set_ylabel("Rows")
-        ax.set_zlabel("Value")
-        ax.set_title("3D Value Function")
 
     def show_policy(self, policy: np.ndarray, step: bool = True):
         arrow = {
