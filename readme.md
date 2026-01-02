@@ -4,7 +4,7 @@
 >
 > 并且同步附有bilibili网站的视频代码讲解，欢迎各位同学参与到讨论学习当中
 >
-> 欢迎各位同学加群一起讨论583867967 （已有945人）25.02是469人 11.23是335人 6.19是158人 5.13是107人  3.15是22人
+> 欢迎各位同学加群一起讨论583867967  26.01.01（已有1000人，顺利突破1000人🎉！）25.12 是945人 25.02是469人 11.23是335人 6.19是158人 5.13是107人  3.15是22人
 
 项目对应B站链接：https://www.bilibili.com/video/BV1fW421w7NH
 
@@ -36,3 +36,9 @@ B站视频已更新到第七章，第八章真的坑，天坑，这一章的代�
 
 #### 24.11.23 更
 最近好忙，囤积了很多东西都没来得及更新，先上传两份调教好的代码，一份是Reinforce 去攻克gridworld，一份是PPO攻克gridworld
+
+#### 26.01.12 更
+感谢各位同学喜爱，
+
+## Star History
+[![Star History Chart](https://api.star-history.com/svg?repos=ziwenhahaha/Code-of-RL-Beginning&type=date&legend=top-left)](https://www.star-history.com/#ziwenhahaha/Code-of-RL-Beginning&type=date&legend=top-left)
